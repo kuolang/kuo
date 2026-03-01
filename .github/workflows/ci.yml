@@ -34,13 +34,15 @@ jobs:
 
       - name: Build
         run: |
-          if [[ "$RUNNER_OS" == "Linux" || "$RUNNER_OS" == "macOS" ]]; then
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
             make clean
             make -j$(nproc)
-          fi
-
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            make clean
+            make -j$(sysctl -n hw.ncpu)
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
             if (Test-Path kuo.exe) { Remove-Item -Force kuo.exe }
+            if (Test-Path $env:TEMP\kuo_*) { Remove-Item -Force $env:TEMP\kuo_* }
             make -j4
           fi
         shell: bash
