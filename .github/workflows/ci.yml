@@ -34,12 +34,16 @@ jobs:
 
       - name: Build
         run: |
-          if [ -f kuo ] || [ -f kuo.exe ]; then rm -f kuo kuo.exe; fi
-          if [ "$(uname)" = "Linux" ] || [ "$(uname)" = "Darwin" ]; then
+          if [[ "$RUNNER_OS" == "Linux" || "$RUNNER_OS" == "macOS" ]]; then
+            make clean
             make -j$(nproc)
-          else
+          fi
+
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            if (Test-Path kuo.exe) { Remove-Item -Force kuo.exe }
             make -j4
           fi
+        shell: bash
 
       - name: Run tests
         run: |
