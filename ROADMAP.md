@@ -121,6 +121,7 @@ fn Point.distance(other: Point) -> float {
 - [ ] `import "path/to/file.kuo"` statement
 - [ ] Exported vs. private declarations (`pub` modifier)
 - [ ] Circular import detection
+- [ ] Package manager
 
 ### Standard Library (Initial)
 - [ ] `std/math` - `sqrt`, `pow`, `abs`, `floor`, `ceil`, `min`, `max`
