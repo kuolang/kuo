@@ -240,11 +240,6 @@ ExprPtr Parser::parseAssignment() {
             auto val = parseAssignment();
             return std::make_unique<AssignExpr>(name, op, std::move(val));
         }
-        if (tt == TokenType::PLUS_PLUS || tt == TokenType::MINUS_MINUS) {
-            std::string name = consume().value;
-            std::string op   = consume().value;
-            return std::make_unique<PostfixExpr>(name, op);
-        }
     }
     return parseOr();
 }
@@ -320,7 +315,17 @@ ExprPtr Parser::parseUnary() {
 }
 
 ExprPtr Parser::parsePostfix() {
-    return parsePrimary();
+    auto expr = parsePrimary();
+    if (check(TokenType::PLUS_PLUS) || check(TokenType::MINUS_MINUS)) {
+        if (auto* ident = dynamic_cast<IdentExpr*>(expr.get())) {
+            std::string name = ident->name;
+            std::string op = consume().value;
+            return std::make_unique<PostfixExpr>(name, op);
+        }
+        throw ParseError("Postfix operator requires an identifier",
+                         current().line, current().col);
+    }
+    return expr;
 }
 
 ExprPtr Parser::parsePrimary() {
