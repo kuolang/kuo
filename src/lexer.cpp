@@ -70,13 +70,21 @@ void Lexer::skipWhitespaceAndComments() {
         } else if (c == '/' && peek() == '/') {
             while (pos < src.size() && current() != '\n') advance();
         } else if (c == '/' && peek() == '*') {
+            int startLine = line;
+            int startCol = col;
             advance(); advance(); // consume /*
+            bool closed = false;
             while (pos < src.size()) {
                 if (current() == '*' && peek() == '/') {
                     advance(); advance(); // consume */
+                    closed = true;
                     break;
                 }
                 advance();
+            }
+            if (!closed) {
+                throw std::runtime_error("Unterminated block comment at line " +
+                    std::to_string(startLine) + ", col " + std::to_string(startCol));
             }
         } else {
             break;
