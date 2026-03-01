@@ -2,13 +2,12 @@ name: Build and Test Kuo
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master ]
 
 jobs:
   build:
-
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -17,25 +16,35 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install dependencies
+      - name: Install dependencies (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt update
           sudo apt install -y g++ make cmake
-      - name: Install dependencies
+
+      - name: Install dependencies (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           choco install mingw -y
-      - name: Install dependencies
+
+      - name: Install dependencies (macOS)
         if: matrix.os == 'macos-latest'
         run: |
           brew install gcc make cmake
 
       - name: Build
         run: |
-          make clean
-          make -j$(nproc)
+          if [ -f kuo ] || [ -f kuo.exe ]; then rm -f kuo kuo.exe; fi
+          if [ "$(uname)" = "Linux" ] || [ "$(uname)" = "Darwin" ]; then
+            make -j$(nproc)
+          else
+            make -j4
+          fi
 
       - name: Run tests
         run: |
-          make test
+          if [ "$(uname)" = "Linux" ] || [ "$(uname)" = "Darwin" ]; then
+            make test
+          else
+            make test
+          fi
