@@ -1,0 +1,8 @@
+// hello.kuo - The classic first program in Kuo
+
+let name: string = "World";
+print("Hello, " + name + "!");
+print("Welcome to the Kuo programming language.");
+
+let version: int = 1;
+print("Version: " + version);

@@ -1,0 +1,42 @@
+// control_flow.kuo - Demonstrating if/else, for, and while loops
+
+print("--- If/Else ---");
+let score: int = 85;
+
+if (score >= 90) {
+    print("Grade: A");
+} else {
+    if (score >= 80) {
+        print("Grade: B");
+    } else {
+        if (score >= 70) {
+            print("Grade: C");
+        } else {
+            print("Grade: F");
+        }
+    }
+}
+
+print("--- For loop (multiplication table) ---");
+let row: int = 0;
+let col: int = 0;
+for (row = 1; row <= 5; row++) {
+    for (col = 1; col <= 5; col++) {
+        print(row * col);
+    }
+}
+
+print("--- While loop (countdown) ---");
+let count: int = 5;
+while (count > 0) {
+    print(count);
+    count--;
+}
+print("Liftoff!");
+
+print("--- Boolean logic ---");
+let a: bool = true;
+let b: bool = false;
+print(a && b);
+print(a || b);
+print(!a);

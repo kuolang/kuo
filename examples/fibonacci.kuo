@@ -1,0 +1,16 @@
+// fibonacci.kuo - Print the first N Fibonacci numbers
+
+let n: int = 10;
+let a: int = 0;
+let b: int = 1;
+let i: int = 0;
+
+print("Fibonacci sequence:");
+
+while (i < n) {
+    print(a);
+    let temp: int = a + b;
+    a = b;
+    b = temp;
+    i++;
+}

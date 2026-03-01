@@ -1,0 +1,45 @@
+// functions.kuo - Demonstrating functions, parameters, and return values
+
+fn add(a: int, b: int) -> int {
+    return a + b;
+}
+
+fn multiply(a: int, b: int) -> int {
+    return a * b;
+}
+
+fn factorial(n: int) -> int {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+fn greet(name: string) -> string {
+    return "Hello, " + name + "!";
+}
+
+fn isEven(n: int) -> bool {
+    return n % 2 == 0;
+}
+
+// Main logic
+print("--- Arithmetic ---");
+print(add(10, 25));
+print(multiply(6, 7));
+
+print("--- Factorial ---");
+let i: int = 1;
+for (i = 1; i <= 7; i++) {
+    print(factorial(i));
+}
+
+print("--- Greetings ---");
+print(greet("Kuo"));
+print(greet("World"));
+
+print("--- Even check ---");
+let x: int = 0;
+for (x = 1; x <= 6; x++) {
+    print(isEven(x));
+}
