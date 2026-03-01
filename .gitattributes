@@ -1,4 +1,4 @@
 * text=auto eol=lf
 *.bat eol=crlf
 
-*.v linguist-language=Kuo
+*.kuo linguist-language=Kuo
