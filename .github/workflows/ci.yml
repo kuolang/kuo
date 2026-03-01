@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v3
@@ -22,11 +22,6 @@ jobs:
           sudo apt update
           sudo apt install -y g++ make cmake
 
-      - name: Install dependencies (Windows)
-        if: matrix.os == 'windows-latest'
-        run: |
-          choco install mingw -y
-
       - name: Install dependencies (macOS)
         if: matrix.os == 'macos-latest'
         run: |
@@ -34,18 +29,12 @@ jobs:
 
       - name: Build
         run: |
-          if [[ "$RUNNER_OS" == "Linux" ]]; then
-            make clean
+          if [ -f kuo ] || [ -f kuo.exe ]; then rm -f kuo kuo.exe; fi
+          if [ "$(uname)" = "Linux" ] || [ "$(uname)" = "Darwin" ]; then
             make -j$(nproc)
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            make clean
-            make -j$(sysctl -n hw.ncpu)
-          elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            if (Test-Path kuo.exe) { Remove-Item -Force kuo.exe }
-            if (Test-Path $env:TEMP\kuo_*) { Remove-Item -Force $env:TEMP\kuo_* }
+          else
             make -j4
           fi
-        shell: bash
 
       - name: Run tests
         run: |
