@@ -28,13 +28,13 @@ let z = 2.5;        // float
 
 ### Primitive Types
 
-| Kuo type | C++ equivalent | Example         |
-|----------|----------------|-----------------|
-| `int`    | `int`          | `42`, `-7`      |
-| `float`  | `double`       | `3.14`, `1.0`   |
-| `bool`   | `bool`         | `true`, `false` |
-| `string` | `std::string`  | `"hello"`       |
-| `void`   | `void`         | (return type)   |
+| Kuo type |  Example          |
+|----------|------------------|
+| `int`    |  `42`, `-7`      |
+| `float`  | `3.14`, `1.0`    |
+| `bool`   | `true`, `false`  |
+| `string` | `"hello"`        |
+| `void`   | (return type)    |
 
 ### Output
 
