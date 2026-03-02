@@ -25,7 +25,7 @@ enum class TokenType {
     // literals, TODO: Double literal
     INT_LIT, FLOAT_LIT, STRING_LIT,
     // keywords
-    LET, FN, RETURN, IF, ELSE, WHILE, FOR, PRINT, TRUE_KW, FALSE_KW,
+    LET, FN, RETURN, IF, ELSE, WHILE, FOR, BREAK, CONTINUE, PRINT, TRUE_KW, FALSE_KW,
     // type keywords
     TYPE_INT, TYPE_FLOAT, TYPE_BOOL, TYPE_STRING, TYPE_VOID,
     // identifier

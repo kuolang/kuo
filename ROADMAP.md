@@ -4,7 +4,7 @@ This document outlines the planned evolution of the Kuo programming language bey
 
 ---
 
-## Current State - v0.1.0
+## Current State - v0.0.1
 
 
 - [x] Declare variables with type annotations or type inference
@@ -24,7 +24,7 @@ This document outlines the planned evolution of the Kuo programming language bey
 *Goal: Close the most common gaps a developer hits when writing real programs.*
 
 ### Control Flow
-- [ ] `break` and `continue` in loops
+- [x] `break` and `continue` in loops
 - [ ] `else if` as a first-class construct (currently requires nesting)
 - [ ] `loop` keyword for infinite loops (`loop { ... }`)
 
@@ -162,7 +162,7 @@ fn Point.distance(other: Point) -> float {
 - [ ] Language Server Protocol (LSP) implementation for hover types, go-to-definition, and diagnostics
 
 ### Package Manager (Early Design)
-- [ ] `kuo.toml` project manifest (name, version, dependencies)
+- [ ] Project manifest (name, version, dependencies)
 - [ ] `kuo add <package>` to fetch dependencies
 - [ ] Central package registry
 

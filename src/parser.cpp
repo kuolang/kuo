@@ -75,6 +75,8 @@ StmtPtr Parser::parseStatement() {
     if (check(TokenType::RETURN)) return parseReturnStmt();
     if (check(TokenType::PRINT))  return parsePrintStmt();
     if (check(TokenType::LBRACE)) return parseBlock();
+    if (check(TokenType::BREAK))  return parseBreakStmt();
+    if (check(TokenType::CONTINUE)) return parseContinueStmt();
 
     // Expression statement
     auto e = parseExpr();

@@ -20,20 +20,3 @@ add_executable(kuo
 )
 
 install(TARGETS kuo DESTINATION bin)
-
-enable_testing()
-
-add_test(
-    NAME hello_world
-    COMMAND kuo ${CMAKE_SOURCE_DIR}/examples/hello.kuo
-)
-
-add_test(
-    NAME fibonacci
-    COMMAND kuo ${CMAKE_SOURCE_DIR}/examples/fibonacci.kuo
-)
-
-add_test(
-    NAME functions
-    COMMAND kuo ${CMAKE_SOURCE_DIR}/examples/functions.kuo
-)

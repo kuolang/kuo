@@ -39,6 +39,7 @@ public:
 private:
     std::vector<Token> tokens;
     size_t pos;
+    int loopDepth = 0;
 
     Token& current();
     Token& peek(int offset = 1);
@@ -55,6 +56,8 @@ private:
     StmtPtr parseIfStmt();
     StmtPtr parseWhileStmt();
     StmtPtr parseForStmt();
+    StmtPtr parseBreakStmt();
+    StmtPtr parseContinueStmt();
     StmtPtr parseReturnStmt();
     StmtPtr parsePrintStmt();
     std::unique_ptr<BlockStmt> parseBlock();

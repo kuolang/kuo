@@ -10,3 +10,4 @@
 - Recurse through function calls
 - Print values with `print()`
 - Report syntax errors with line and column information
+- Add `break` and `continue` in loops
