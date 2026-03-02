@@ -232,6 +232,14 @@ void CodeGen::genFor(const ForStmt* s) {
     popScope();
 }
 
+void CodeGen::genBreak(const BreakStmt* s) {
+    emitLine("break;");
+}
+
+void CodeGen::genContinue(const ContinueStmt* s) {
+    emitLine("continue;");
+}
+
 void CodeGen::genReturn(const ReturnStmt* s) {
     if (s->value) {
         emitLine("return " + genExpr(s->value.get()) + ";");
