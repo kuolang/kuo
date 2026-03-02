@@ -165,6 +165,12 @@ struct ForStmt : Stmt {
           update(std::move(u)), body(std::move(b)) {}
 };
 
+struct BreakStmt : Stmt {
+};
+
+struct ContinueStmt : Stmt {
+};
+
 struct ReturnStmt : Stmt {
     ExprPtr value; // may be nullptr
     explicit ReturnStmt(ExprPtr v) : value(std::move(v)) {}

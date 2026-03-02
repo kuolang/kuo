@@ -52,6 +52,8 @@ private:
     void genIf(const IfStmt* s);
     void genWhile(const WhileStmt* s);
     void genFor(const ForStmt* s);
+    void genBreak(const BreakStmt* s);
+    void genContinue(const ContinueStmt* s);
     void genReturn(const ReturnStmt* s);
     void genPrint(const PrintStmt* s);
     void genExprStmt(const ExprStmt* s);

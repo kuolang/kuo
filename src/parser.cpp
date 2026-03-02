@@ -75,6 +75,8 @@ StmtPtr Parser::parseStatement() {
     if (check(TokenType::RETURN)) return parseReturnStmt();
     if (check(TokenType::PRINT))  return parsePrintStmt();
     if (check(TokenType::LBRACE)) return parseBlock();
+    if (check(TokenType::BREAK))  return parseBreakStmt();
+    if (check(TokenType::CONTINUE)) return parseContinueStmt();
 
     // Expression statement
     auto e = parseExpr();
@@ -225,6 +227,24 @@ std::unique_ptr<BlockStmt> Parser::parseBlock() {
     }
     expect(TokenType::RBRACE);
     return block;
+}
+
+StmtPtr Parser::parseBreakStmt() {
+    int ln = current().line, cl = current().col;
+    expect(TokenType::BREAK);
+    expect(TokenType::SEMICOLON);
+    auto node = std::make_unique<BreakStmt>();
+    node->line = ln; node->col = cl;
+    return node;
+}
+
+StmtPtr Parser::parseContinueStmt() {
+    int ln = current().line, cl = current().col;
+    expect(TokenType::CONTINUE);
+    expect(TokenType::SEMICOLON);
+    auto node = std::make_unique<ContinueStmt>();
+    node->line = ln; node->col = cl;
+    return node;
 }
 
 ExprPtr Parser::parseExpr() { return parseAssignment(); }

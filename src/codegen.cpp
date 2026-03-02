@@ -108,6 +108,8 @@ void CodeGen::genStmt(const Stmt* s) {
     if (auto* n = dynamic_cast<const ReturnStmt*>(s))    { genReturn(n); return; }
     if (auto* n = dynamic_cast<const PrintStmt*>(s))     { genPrint(n); return; }
     if (auto* n = dynamic_cast<const ExprStmt*>(s))      { genExprStmt(n); return; }
+    if (auto* n = dynamic_cast<const BreakStmt*>(s))     { genBreak(n); return; }
+    if (auto* n = dynamic_cast<const ContinueStmt*>(s))  { genContinue(n); return; }
     throw std::runtime_error("Unknown statement type in codegen");
 }
 
@@ -228,6 +230,14 @@ void CodeGen::genFor(const ForStmt* s) {
         indentLevel--;
     }
     popScope();
+}
+
+void CodeGen::genBreak(const BreakStmt* s) {
+    emitLine("break;");
+}
+
+void CodeGen::genContinue(const ContinueStmt* s) {
+    emitLine("continue;");
 }
 
 void CodeGen::genReturn(const ReturnStmt* s) {

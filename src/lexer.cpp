@@ -31,6 +31,8 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"else",   TokenType::ELSE},
     {"while",  TokenType::WHILE},
     {"for",    TokenType::FOR},
+    {"break",  TokenType::BREAK},
+    {"continue", TokenType::CONTINUE},
     {"print",  TokenType::PRINT},
     {"true",   TokenType::TRUE_KW},
     {"false",  TokenType::FALSE_KW},

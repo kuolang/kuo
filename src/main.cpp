@@ -138,6 +138,59 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Load core Kuo library from a 'core' directory next to the executable
+    // TODO: Make the core embed into the compiler
+    Program coreProgram;
+    fs::path exePath;
+    try {
+        exePath = fs::canonical(fs::path(argv[0]));
+    } catch (const std::exception&) {
+        exePath = fs::path(argv[0]);
+    }
+    fs::path exeDir = exePath.parent_path();
+    fs::path coreDir = exeDir / "core";
+
+    if (fs::exists(coreDir) && fs::is_directory(coreDir)) {
+        for (const auto& entry : fs::directory_iterator(coreDir)) {
+            if (!entry.is_regular_file()) continue;
+            if (entry.path().extension() != ".kuo") continue;
+
+            std::string coreFile = entry.path().string();
+            std::string coreSource;
+            try {
+                coreSource = readFile(coreFile);
+            } catch (const std::exception& e) {
+                std::cerr << "Error: Cannot open core file '" << coreFile
+                          << "': " << e.what() << "\n";
+                return 1;
+            }
+
+            std::vector<Token> coreTokens;
+            try {
+                Lexer coreLexer(coreSource);
+                coreTokens = coreLexer.tokenize();
+            } catch (const std::exception& e) {
+                std::cerr << "[Lexer Error] " << coreFile << ": " << e.what() << "\n";
+                return 1;
+            }
+
+            try {
+                Parser coreParser(std::move(coreTokens));
+                Program p = coreParser.parse();
+                for (auto& stmt : p.stmts) {
+                    coreProgram.stmts.push_back(std::move(stmt));
+                }
+            } catch (const ParseError& e) {
+                std::cerr << "[Parse Error] " << coreFile << ":" << e.line << ":" << e.col
+                          << ": " << e.what() << "\n";
+                return 1;
+            } catch (const std::exception& e) {
+                std::cerr << "[Parse Error] " << coreFile << ": " << e.what() << "\n";
+                return 1;
+            }
+        }
+    }
+
     std::vector<Token> tokens;
     try {
         Lexer lexer(source);
@@ -160,10 +213,20 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Prepend core statements so they are available to user programs.
+    Program combinedProgram;
+    combinedProgram.stmts.reserve(coreProgram.stmts.size() + program.stmts.size());
+    for (auto& stmt : coreProgram.stmts) {
+        combinedProgram.stmts.push_back(std::move(stmt));
+    }
+    for (auto& stmt : program.stmts) {
+        combinedProgram.stmts.push_back(std::move(stmt));
+    }
+
     std::string cppSource;
     try {
         CodeGen gen;
-        cppSource = gen.generate(program);
+        cppSource = gen.generate(combinedProgram);
     } catch (const std::exception& e) {
         std::cerr << "[CodeGen Error] " << e.what() << "\n";
         return 1;
