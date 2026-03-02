@@ -229,6 +229,24 @@ std::unique_ptr<BlockStmt> Parser::parseBlock() {
     return block;
 }
 
+StmtPtr Parser::parseBreakStmt() {
+    int ln = current().line, cl = current().col;
+    expect(TokenType::BREAK);
+    expect(TokenType::SEMICOLON);
+    auto node = std::make_unique<BreakStmt>();
+    node->line = ln; node->col = cl;
+    return node;
+}
+
+StmtPtr Parser::parseContinueStmt() {
+    int ln = current().line, cl = current().col;
+    expect(TokenType::CONTINUE);
+    expect(TokenType::SEMICOLON);
+    auto node = std::make_unique<ContinueStmt>();
+    node->line = ln; node->col = cl;
+    return node;
+}
+
 ExprPtr Parser::parseExpr() { return parseAssignment(); }
 
 ExprPtr Parser::parseAssignment() {
