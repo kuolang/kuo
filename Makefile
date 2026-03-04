@@ -46,6 +46,9 @@ ifeq ($(OS),Windows_NT)
 	@echo "=== Test: postfix_expr.kuo ==="
 	$(TARGET)$(EXE) examples\postfix_expr.kuo
 	@echo ""
+	@echo "=== Test: string_utils.kuo ==="
+	$(TARGET)$(EXE) examples\string_utils.kuo
+	@echo ""
 else
 	@echo "=== Test: hello.kuo ==="
 	./$(TARGET) examples/hello.kuo
@@ -61,6 +64,9 @@ else
 	@echo ""
 	@echo "=== Test: postfix_expr.kuo ==="
 	./$(TARGET) examples/postfix_expr.kuo
+	@echo ""
+	@echo "=== Test: string_utils.kuo ==="
+	./$(TARGET) examples/string_utils.kuo
 	@echo ""
 endif
 	@echo "All tests passed!"

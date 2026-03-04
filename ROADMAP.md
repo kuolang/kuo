@@ -39,7 +39,7 @@ This document outlines the planned evolution of the Kuo programming language bey
 
 ### Strings
 - [ ] String interpolation: `"Hello, {name}!"`
-- [ ] Built-in string functions: `len()`, `upper()`, `lower()`, `contains()`, `split()`
+- [x] Built-in string functions: `len()`, `upper()`, `lower()`, `contains()`, `split()`
 
 ### Error Reporting
 - [ ] Source-line context in error messages (print the offending line with a `^` caret)
