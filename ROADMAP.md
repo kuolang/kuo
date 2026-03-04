@@ -25,8 +25,8 @@ This document outlines the planned evolution of the Kuo programming language bey
 
 ### Control Flow
 - [x] `break` and `continue` in loops
-- [ ] `else if` as a first-class construct (currently requires nesting)
-- [ ] `loop` keyword for infinite loops (`loop { ... }`)
+- [x] `else if` as a first-class construct (currently requires nesting)
+- [x] `loop` keyword for infinite loops (`loop { ... }`)
 
 ### Operators
 - [ ] Compound assignment operators: `%=`

@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <iomanip>
+#include <cctype>
 
 void CodeGen::pushScope() { scopeStack.emplace_back(); }
 void CodeGen::popScope()  { if (!scopeStack.empty()) scopeStack.pop_back(); }
@@ -52,6 +53,36 @@ std::string CodeGen::generate(const Program& prog) {
     emitLine("#include <iostream>");
     emitLine("#include <string>");
     emitLine("#include <cmath>");
+    emitLine("");
+
+    // Built-in helpers for string functions used by the core library
+    emitLine("static int kuo_len(const std::string& s) { return static_cast<int>(s.size()); }");
+    emitLine("static std::string kuo_upper(const std::string& s) {");
+    indentLevel++;
+    emitLine("std::string r = s;");
+    emitLine("for (char& c : r) { c = static_cast<char>(std::toupper(static_cast<unsigned char>(c))); }");
+    emitLine("return r;");
+    indentLevel--;
+    emitLine("}");
+    emitLine("static std::string kuo_lower(const std::string& s) {");
+    indentLevel++;
+    emitLine("std::string r = s;");
+    emitLine("for (char& c : r) { c = static_cast<char>(std::tolower(static_cast<unsigned char>(c))); }");
+    emitLine("return r;");
+    indentLevel--;
+    emitLine("}");
+    emitLine("static bool kuo_contains(const std::string& s, const std::string& sub) {");
+    indentLevel++;
+    emitLine("return s.find(sub) != std::string::npos;");
+    indentLevel--;
+    emitLine("}");
+    emitLine("static std::string kuo_split_first(const std::string& s, const std::string& sep) {");
+    indentLevel++;
+    emitLine("std::size_t pos = s.find(sep);");
+    emitLine("if (pos == std::string::npos) return s;");
+    emitLine("return s.substr(0, pos);");
+    indentLevel--;
+    emitLine("}");
     emitLine("");
 
     for (const auto& s : prog.stmts) {
@@ -317,6 +348,45 @@ std::string CodeGen::genUnary(const UnaryExpr* e) {
 }
 
 std::string CodeGen::genCall(const CallExpr* e) {
+    if (e->callee == "len" && e->args.size() == 1) {
+        KuoType t = inferType(e->args[0].get());
+        if (t != KuoType::String) {
+            throw std::runtime_error("len() expects a string argument");
+        }
+        return "kuo_len(" + genExpr(e->args[0].get()) + ")";
+    }
+    if (e->callee == "upper" && e->args.size() == 1) {
+        KuoType t = inferType(e->args[0].get());
+        if (t != KuoType::String) {
+            throw std::runtime_error("upper() expects a string argument");
+        }
+        return "kuo_upper(" + genExpr(e->args[0].get()) + ")";
+    }
+    if (e->callee == "lower" && e->args.size() == 1) {
+        KuoType t = inferType(e->args[0].get());
+        if (t != KuoType::String) {
+            throw std::runtime_error("lower() expects a string argument");
+        }
+        return "kuo_lower(" + genExpr(e->args[0].get()) + ")";
+    }
+    if (e->callee == "contains" && e->args.size() == 2) {
+        KuoType t0 = inferType(e->args[0].get());
+        KuoType t1 = inferType(e->args[1].get());
+        if (t0 != KuoType::String || t1 != KuoType::String) {
+            throw std::runtime_error("contains() expects two string arguments");
+        }
+        return "kuo_contains(" + genExpr(e->args[0].get()) + ", " + genExpr(e->args[1].get()) + ")";
+    }
+    if (e->callee == "split" && e->args.size() == 2) {
+        // For now, split returns the substring before the first occurrence of the separator.
+        KuoType t0 = inferType(e->args[0].get());
+        KuoType t1 = inferType(e->args[1].get());
+        if (t0 != KuoType::String || t1 != KuoType::String) {
+            throw std::runtime_error("split() expects two string arguments");
+        }
+        return "kuo_split_first(" + genExpr(e->args[0].get()) + ", " + genExpr(e->args[1].get()) + ")";
+    }
+
     std::string s = e->callee + "(";
     for (size_t i = 0; i < e->args.size(); ++i) {
         if (i) s += ", ";
@@ -358,6 +428,13 @@ KuoType CodeGen::inferType(const Expr* e) {
         return inferType(n->operand.get());
     }
     if (auto* n = dynamic_cast<const CallExpr*>(e)) {
+        // Built-in string functions
+        if (n->callee == "len")      return KuoType::Int;
+        if (n->callee == "upper")    return KuoType::String;
+        if (n->callee == "lower")    return KuoType::String;
+        if (n->callee == "contains") return KuoType::Bool;
+        if (n->callee == "split")    return KuoType::String; // first segment before separator
+
         auto it = funcReturnTypes.find(n->callee);
         if (it != funcReturnTypes.end()) return it->second;
         return KuoType::Unknown;

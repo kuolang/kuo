@@ -1,0 +1,17 @@
+// string_utils.kuo - Demonstrate built-in string functions using a class-like pattern.
+// This simulates a 'StringInfo' class with helper functions that operate on strings.
+
+fn StringInfo_printInfo(s: string) -> void {
+    print("Original: " + s);
+    print("Length: " + len(s));
+    print("Upper: " + upper(s));
+    print("Lower: " + lower(s));
+    print("Contains 'kuo': " + contains(lower(s), "kuo"));
+    print("First part before space: " + split(s, " "));
+}
+
+print("--- StringInfo example ---");
+
+let msg: string = "Hello Kuo World";
+StringInfo_printInfo(msg);
+
