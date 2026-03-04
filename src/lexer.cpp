@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===============================================================================
 
  ██╗  ██╗██╗   ██╗ ██████╗
@@ -31,6 +31,7 @@ static const std::unordered_map<std::string, TokenType> KEYWORDS = {
     {"else",   TokenType::ELSE},
     {"while",  TokenType::WHILE},
     {"for",    TokenType::FOR},
+    {"loop",   TokenType::LOOP},
     {"break",  TokenType::BREAK},
     {"continue", TokenType::CONTINUE},
     {"print",  TokenType::PRINT},

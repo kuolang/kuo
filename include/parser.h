@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===============================================================================
 
  ██╗  ██╗██╗   ██╗ ██████╗
@@ -56,6 +56,7 @@ private:
     StmtPtr parseIfStmt();
     StmtPtr parseWhileStmt();
     StmtPtr parseForStmt();
+    StmtPtr parseLoopStmt();
     StmtPtr parseBreakStmt();
     StmtPtr parseContinueStmt();
     StmtPtr parseReturnStmt();
