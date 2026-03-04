@@ -1,4 +1,4 @@
-﻿/*
+/*
 ===============================================================================
 
  ██╗  ██╗██╗   ██╗ ██████╗
@@ -25,7 +25,7 @@ enum class TokenType {
     // literals, TODO: Double literal
     INT_LIT, FLOAT_LIT, STRING_LIT,
     // keywords
-    LET, FN, RETURN, IF, ELSE, WHILE, FOR, BREAK, CONTINUE, PRINT, TRUE_KW, FALSE_KW,
+    LET, FN, RETURN, IF, ELSE, WHILE, FOR, LOOP, BREAK, CONTINUE, PRINT, TRUE_KW, FALSE_KW,
     // type keywords
     TYPE_INT, TYPE_FLOAT, TYPE_BOOL, TYPE_STRING, TYPE_VOID,
     // identifier
@@ -70,6 +70,7 @@ inline std::string tokenTypeName(TokenType t) {
         case TokenType::ELSE:       return "else";
         case TokenType::WHILE:      return "while";
         case TokenType::FOR:        return "for";
+        case TokenType::LOOP:       return "loop";
         case TokenType::PRINT:      return "print";
         case TokenType::TRUE_KW:    return "true";
         case TokenType::FALSE_KW:   return "false";

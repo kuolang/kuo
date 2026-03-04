@@ -72,6 +72,7 @@ StmtPtr Parser::parseStatement() {
     if (check(TokenType::IF))     return parseIfStmt();
     if (check(TokenType::WHILE))  return parseWhileStmt();
     if (check(TokenType::FOR))    return parseForStmt();
+    if (check(TokenType::LOOP))   return parseLoopStmt();
     if (check(TokenType::RETURN)) return parseReturnStmt();
     if (check(TokenType::PRINT))  return parsePrintStmt();
     if (check(TokenType::LBRACE)) return parseBlock();
@@ -154,6 +155,16 @@ StmtPtr Parser::parseWhileStmt() {
     expect(TokenType::LPAREN);
     auto cond = parseExpr();
     expect(TokenType::RPAREN);
+    auto body = parseStatement();
+    auto node = std::make_unique<WhileStmt>(std::move(cond), std::move(body));
+    node->line = ln; node->col = cl;
+    return node;
+}
+
+StmtPtr Parser::parseLoopStmt() {
+    int ln = current().line, cl = current().col;
+    expect(TokenType::LOOP);
+    auto cond = std::make_unique<BoolLitExpr>(true);
     auto body = parseStatement();
     auto node = std::make_unique<WhileStmt>(std::move(cond), std::move(body));
     node->line = ln; node->col = cl;

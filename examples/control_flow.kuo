@@ -5,16 +5,12 @@ let score: int = 85;
 
 if (score >= 90) {
     print("Grade: A");
+} else if (score >= 80) {
+    print("Grade: B");
+} else if (score >= 70) {
+    print("Grade: C");
 } else {
-    if (score >= 80) {
-        print("Grade: B");
-    } else {
-        if (score >= 70) {
-            print("Grade: C");
-        } else {
-            print("Grade: F");
-        }
-    }
+    print("Grade: F");
 }
 
 print("--- For loop (multiplication table) ---");
@@ -33,6 +29,16 @@ while (count > 0) {
     count--;
 }
 print("Liftoff!");
+
+print("--- Loop keyword (infinite loop with break) ---");
+let n: int = 0;
+loop {
+    n++;
+    if (n > 3) {
+        break;
+    }
+    print(n);
+}
 
 print("--- Boolean logic ---");
 let a: bool = true;
